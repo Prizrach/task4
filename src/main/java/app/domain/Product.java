@@ -1,7 +1,7 @@
 package app.domain;
 
 public class Product {
-    private String name;
+    private String title;
     private double price;
     private int id;
 
@@ -11,12 +11,13 @@ public class Product {
 //        this.price = price;
 //    }
 
-     public String getName() {
-        return name;
+
+    public String getName() {
+        return title;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.title = name;
     }
 
     public double getPrice() {
@@ -27,5 +28,11 @@ public class Product {
         this.price = prise;
     }
 
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 }

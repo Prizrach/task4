@@ -3,8 +3,14 @@ package app.servlet;
 import app.domain.Order;
 import app.domain.PriceList;
 import app.domain.Product;
+import app.domain.User;
+import app.repository.PriceListRepository;
+import app.repository.UserRepository;
+import app.service.OrderService;
+import app.sql.SqlHelper;
 
 
+import javax.jws.soap.SOAPBinding;
 import javax.servlet.ServletException;
 
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +20,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.io.IOException;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,8 +32,13 @@ import java.util.Map;
 
 @WebServlet(name = "orderServlet", urlPatterns = "/orderServlet")
 public class OrderServlet extends HttpServlet {
+    PriceListRepository priceListRepository = new PriceListRepository();
+    ResultSet rs = null;
+    Order order = new Order();
+    OrderService orderService = new OrderService();
+    User user = new User();
+    UserRepository userRepository = new UserRepository();
 
-    private List<Product> pickedProducts = new ArrayList();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -31,20 +46,22 @@ public class OrderServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("priceList", priceListRepository.getPriceListFromDb());
 
-            req.setAttribute("priceList", PriceList.INIT_PRICE_LIST());
+        user.setLogin(req.getSession().getAttribute("userName").toString());
+        userRepository.add(user);
 
-            String value = req.getParameter("selected");
+        String pickedProduct = req.getParameter("selected");
 
-            if(value!=null) {
-                Product product = new Product();
-                product.setName(value);
-                product.setPrice(PriceList.INIT_PRICE_LIST().get(value));
-                pickedProducts.add(product);
-            }
+        ArrayList pickedProducts = orderService.addProductToPickedProducts(pickedProduct);
+
+
+
+        order.setTotalPrice(OrderService.getTotalPrice(pickedProducts));
+        req.getSession().setAttribute("order", order);
+
 
             req.getSession().setAttribute("pickedProducts",pickedProducts);
-            //req.setAttribute("pickedProducts", pickedProducts);
             req.getRequestDispatcher("WEB-INF/jsp/orderPage.jsp").forward(req, resp);
     }
 }

@@ -5,11 +5,9 @@ import java.util.List;
 
 public class Order {
 
-    private String userName;
+    private int id;
+    private int userId;
     private double totalPrice;
-    private List<Product> pickedProducts = new ArrayList<>();
-
-
 
     public double getTotalPrice() {
         return totalPrice;
@@ -19,11 +17,19 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public List<Product> getPickedProducts() {
-        return pickedProducts;
+    public int getId() {
+        return id;
     }
 
-    public void setPickedProducts(List<Product> pickedProducts) {
-        this.pickedProducts = pickedProducts;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }

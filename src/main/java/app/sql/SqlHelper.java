@@ -1,23 +1,31 @@
 package app.sql;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class SqlHelper {
+    private static final String DB_DRIVER = "org.h2.Driver";
+    private static final String DB_URL = "jdbc:h2:mem:app;DB_CLOSE_DELAY=-1";
+    private static final String DB_USERNAME = "sa";
+    private static final String DB_PASSWORD = "";
 
-    private static Connection connection = getConnection();
+    // return DriverManager.getConnection("jdbc:h2:file:~/scripts;INIT=RUNSCRIPT FROM '~/createTables.sql'\\;RUNSCRIPT FROM '~/insertProducts.sql'");
+
+    public static Connection connection = getConnection();
 
     public static Connection getConnection() {
-        try {
-            Class.forName("org.h2.Driver");
-            return DriverManager.getConnection("jdbc:h2:mem:app;DB_CLOSE_DELAY=-1;", "sa", "");
-
+        try{
+           Class.forName(DB_DRIVER);
+           connection =  DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
-            throw new RuntimeException("das");
         }
+        return connection;
     }
 
     public static void initDB() {
@@ -29,7 +37,7 @@ public class SqlHelper {
                 "  password text\n" +
                 ");\n" +
                 "\n" +
-                "CREATE TABLE SHOP_ORDER\n" +
+                "CREATE TABLE `ORDER`\n" +
                 "(\n" +
                 "  id          int AUTO_INCREMENT PRIMARY KEY,\n" +
                 "  user_id     int,\n" +
@@ -49,7 +57,7 @@ public class SqlHelper {
                 "  id       int AUTO_INCREMENT PRIMARY KEY,\n" +
                 "  order_id int,\n" +
                 "  good_id  int,\n" +
-                "  CONSTRAINT order_id FOREIGN KEY (order_id) REFERENCES SHOP_ORDER (ID),\n" +
+                "  CONSTRAINT order_id FOREIGN KEY (order_id) REFERENCES `ORDER` (ID),\n" +
                 "  CONSTRAINT good_id FOREIGN KEY (good_id) REFERENCES GOOD (ID)\n" +
                 ");")) {
 
@@ -77,3 +85,4 @@ public class SqlHelper {
         }
     }
 }
+

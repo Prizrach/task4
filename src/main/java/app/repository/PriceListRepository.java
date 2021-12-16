@@ -1,5 +1,7 @@
 package app.repository;
 
+import app.dao.PriceListDao;
+import app.domain.PriceList;
 import app.domain.Product;
 import app.sql.SqlHelper;
 
@@ -10,23 +12,23 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PriceListRepository {
+public class PriceListRepository implements PriceListDao {
 
+    @Override
+    public Map<String, Double> getPriceListFromDb() {
+        Map<String,Double> priceList = new HashMap<>();
 
-    public static Map<String, Double> getPriceListFromDB() {
-        Map<String, Double> priseList = new HashMap<>();
-        ResultSet rs = null;
         Connection connection = SqlHelper.getConnection();
 
-        try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM GOOD")) {
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                priseList.put(rs.getString("title"), rs.getDouble("price"));
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM GOOD")) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                priceList.put(resultSet.getString("title"), resultSet.getDouble("price"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return priseList;
+        return priceList;
     }
 
 }
