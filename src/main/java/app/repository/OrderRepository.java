@@ -63,9 +63,7 @@ public class OrderRepository extends SqlHelper implements OrderDao {
         }catch (SQLException e){
             e.printStackTrace();
         }
-
-
-        return null;
+        return order;
     }
 }
 

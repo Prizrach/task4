@@ -5,6 +5,8 @@ public class Good {
     private String title;
     private double price;
 
+    public Good() {}
+
     public int getId() {
         return id;
     }
@@ -27,5 +29,14 @@ public class Good {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "Good{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", price=" + price +
+                '}';
     }
 }

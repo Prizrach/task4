@@ -9,6 +9,12 @@ public class Order {
     private int userId;
     private double totalPrice;
 
+    private User user;
+    private OrderGood orderGood;
+
+    public Order() {
+    }
+
     public double getTotalPrice() {
         return totalPrice;
     }
@@ -31,5 +37,21 @@ public class Order {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public OrderGood getOrderGood() {
+        return orderGood;
+    }
+
+    public void setOrderGood(OrderGood orderGood) {
+        this.orderGood = orderGood;
     }
 }

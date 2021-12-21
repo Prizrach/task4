@@ -16,4 +16,6 @@ public interface GoodDao {
     void update(Good good);
 
     void remove(Good good);
+
+    Good getByTitle(String title);
 }

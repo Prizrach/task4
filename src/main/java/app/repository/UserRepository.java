@@ -4,6 +4,7 @@ import app.dao.UserDao;
 import app.domain.User;
 import app.sql.SqlHelper;
 
+import javax.jws.soap.SOAPBinding;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,84 +12,93 @@ import java.util.List;
 
 public final class UserRepository implements UserDao {
 
-//   //  try (PreparedStatement ps = conn.prepareStatement("INSERT INTO USER (id, LOGIN) VALUES (?,?)")) {
-//       try (PreparedStatement ps = conn.prepareStatement("INSERT INTO USER (LOGIN) VALUES (?)")) {
-//           ps.setString(1, user.getName());
-//           ps.execute();
-//       } catch (SQLException e) {
-//           e.printStackTrace();
-//       }
-//   }
-        Connection connection = SqlHelper.getConnection();
 
-        @Override
-        public void add (User user){
-            String sql = "INSERT INTO USER (ID, LOGIN, PASSWORD) VALUES(?,?)";
-                try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
-                preparedStatement.setLong(1, user.getId());
-                preparedStatement.setString(2, user.getLogin());
-                preparedStatement.execute();
-            } catch (SQLException e){
-                e.printStackTrace();
-            }
+    @Override
+    public void add(User user) {
+        String sql = "INSERT INTO USER (LOGIN) VALUES(?)";
+        try (Connection connection = SqlHelper.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, user.getLogin());
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+    }
 
-        @Override
-        public List<User> getAll () {
-            List<User>  userList = new ArrayList<>();
-
-            String sql = "SELECT ID, LOGIN, PASSWORD";
-
-            try(Statement statement = connection.createStatement()){
-
-                ResultSet resultSet = statement.executeQuery(sql);
-                while (resultSet.next()){
+    @Override
+    public List<User> getAll() {
+        List<User> userList = new ArrayList<>();
+        String sql = "SELECT * FROM `USER`";
+        try (Connection connection = SqlHelper.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
                     User user = new User();
                     user.setId(resultSet.getInt("ID"));
                     user.setLogin(resultSet.getString("LOGIN"));
-
                     userList.add(user);
                 }
-            } catch (SQLException e){
-                e.printStackTrace();
             }
-            return userList;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return userList;
+    }
 
-        @Override
-        public User getBuId (int id){
-            String sql = "SELECT ID, LOGIN, PASSWORD FROM USER WHERE ID = ?";
+    @Override
+    public User getById(int id) {
+        String sql = "SELECT * FROM `USER` WHERE ID = ?";
+        User user = new User();
+        try (Connection connection = SqlHelper.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+             preparedStatement.setInt(1, id);
 
-            User user = new User();
-
-            try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
-
-                preparedStatement.setInt(1, id);
-
-                ResultSet resultSet = preparedStatement.executeQuery();
-
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                resultSet.next();
                 user.setId(resultSet.getInt("ID"));
                 user.setLogin(resultSet.getString("LOGIN"));
-
-                preparedStatement.executeQuery();
-
-            }catch (SQLException e){
-                e.printStackTrace();
+                user.setPassword(resultSet.getString("PASSWORD"));
             }
-            return user;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-
-        @Override
-        public void update (User user){
-
-        }
-
-        @Override
-        public void remove (User user){
-
-        }
+        return user;
     }
+
+
+    @Override
+    public void update(User user) {
+
+    }
+
+    @Override
+    public void remove(User user) {
+
+    }
+
+    @Override
+    public User getByLogin(String login) {
+        String sql = "SELECT * FROM `USER` WHERE LOGIN = ?";
+
+        User user = new User();
+
+        try (Connection connection = SqlHelper.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, login);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                resultSet.next();
+                user.setId(resultSet.getInt("ID"));
+                user.setLogin(resultSet.getString("LOGIN"));
+                user.setPassword(resultSet.getString("PASSWORD"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+}
 
 
 

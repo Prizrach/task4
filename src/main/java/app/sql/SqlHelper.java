@@ -25,6 +25,7 @@ public class SqlHelper {
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+        System.out.println("Connection ok");
         return connection;
     }
 

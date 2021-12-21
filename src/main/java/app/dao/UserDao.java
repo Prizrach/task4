@@ -10,9 +10,11 @@ public interface UserDao {
 
     List<User> getAll();
 
-    User getBuId(int id);
+    User getById(int id);
 
     void update(User user);
 
     void remove(User user);
+
+    User getByLogin(String login);
 }

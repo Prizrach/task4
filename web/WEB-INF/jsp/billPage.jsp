@@ -9,7 +9,7 @@
 </head>
 <body>
    <div>
-    <h2>Dear ${userName}, your order:</h2>
+    <h2>Dear ${userLogin}, your order:</h2>
     <br>
     <form method="post" action="billServlet">
     <p>

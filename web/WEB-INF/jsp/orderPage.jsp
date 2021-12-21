@@ -9,7 +9,7 @@
 </head>
 <body>
 <div>
-    <h2>Hello ${userName}!</h2>
+    <h2>Hello ${userLogin}!</h2>
     <br>
     <p>Make you order<p>
     <form method="post" action="orderServlet">
@@ -28,7 +28,7 @@
     <p>You have already chosen:</p>
 
             <c:forEach var="pickedProduct" items="${pickedProducts}">
-                 <p> ${pickedProduct.getName()} ${pickedProduct.getPrice()} </p>
+                 <p> ${pickedProduct.getTitle()} ${pickedProduct.getPrice()} </p>
 
      </c:forEach>
 </div>
