@@ -8,13 +8,12 @@ import javax.jws.soap.SOAPBinding;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
-public final class UserRepository implements UserDao {
+public final class UserRepository {
 
-
-    @Override
-    public void add(User user) {
+    public static void add(User user) {
         String sql = "INSERT INTO USER (LOGIN) VALUES(?)";
         try (Connection connection = SqlHelper.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -25,9 +24,8 @@ public final class UserRepository implements UserDao {
         }
     }
 
-    @Override
-    public List<User> getAll() {
-        List<User> userList = new ArrayList<>();
+    public static List<User> getAll() {
+        List<User> users = new ArrayList<>();
         String sql = "SELECT * FROM `USER`";
         try (Connection connection = SqlHelper.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -36,17 +34,17 @@ public final class UserRepository implements UserDao {
                     User user = new User();
                     user.setId(resultSet.getInt("ID"));
                     user.setLogin(resultSet.getString("LOGIN"));
-                    userList.add(user);
+                    user.setPassword(resultSet.getString("PASSWORD"));
+                    users.add(user);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return userList;
+        return users;
     }
 
-    @Override
-    public User getById(int id) {
+    public static User getById(int id) {
         String sql = "SELECT * FROM `USER` WHERE ID = ?";
         User user = new User();
         try (Connection connection = SqlHelper.getConnection();
@@ -66,18 +64,15 @@ public final class UserRepository implements UserDao {
     }
 
 
-    @Override
     public void update(User user) {
 
     }
 
-    @Override
     public void remove(User user) {
 
     }
 
-    @Override
-    public User getByLogin(String login) {
+    public static User getByLogin(String login) {
         String sql = "SELECT * FROM `USER` WHERE LOGIN = ?";
 
         User user = new User();
@@ -95,9 +90,13 @@ public final class UserRepository implements UserDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
         return user;
     }
+
+
+
 }
 
 

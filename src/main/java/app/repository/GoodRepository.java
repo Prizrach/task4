@@ -11,15 +11,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GoodRepository implements GoodDao {
+public class GoodRepository {
 
 
-    @Override
     public void add(Good good) {
     }
 
-    @Override
-    public List<Good> getAll() {
+    public static List<Good> getAll() {
         List<Good> goodList = new ArrayList<>();
         String sql = "SELECT * FROM GOOD";
         try (Connection connection = SqlHelper.getConnection();
@@ -33,39 +31,18 @@ public class GoodRepository implements GoodDao {
                     goodList.add(good);
                 }
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return goodList;
     }
 
-    @Override
     public Good getBuId(int id) {
-        return null;
-    }
-
-    @Override
-    public void update(Good good) {
-
-    }
-
-    @Override
-    public void remove(Good good) {
-
-    }
-
-    @Override
-    public Good getByTitle(String title) {
-        String sql = "SELECT * FROM GOOD WHERE TITLE = ?";
+        String sql = "SELECT * FROM GOOD WHERE id = ?";
         Good good = new Good();
-        Connection connection = SqlHelper.getConnection();
-        try (
-            PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
-            preparedStatement.setString(1, title);
-
+        try (Connection connection = SqlHelper.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, "id");
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 resultSet.next();
                 good.setId(resultSet.getInt("ID"));
@@ -80,5 +57,32 @@ public class GoodRepository implements GoodDao {
 
 
 
+    public void update(Good good) {
 
+    }
+
+    public void remove(Good good) {
+
+    }
+
+    public static Good getByTitle(String title) {
+        String sql = "SELECT * FROM GOOD WHERE TITLE = ?";
+        Good good = new Good();
+        Connection connection = SqlHelper.getConnection();
+        try (
+                PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, title);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                resultSet.next();
+                good.setId(resultSet.getInt("ID"));
+                good.setTitle(resultSet.getString("TITLE"));
+                good.setPrice(resultSet.getDouble("PRICE"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return good;
+    }
 }

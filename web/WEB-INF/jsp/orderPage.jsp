@@ -9,13 +9,13 @@
 </head>
 <body>
 <div>
-    <h2>Hello ${userLogin}!</h2>
+    <h2>Hello ${login}!</h2>
     <br>
     <p>Make you order<p>
     <form method="post" action="orderServlet">
         <select name="selected">
             <c:forEach var="product" items="${priceList}">
-                <option value="${product.key}">${product.key} (${product.value}$)</option>
+                <option value="${product.getTitle()}">${product.getTitle()} (${product.getPrice()}$)</option>
             </c:forEach>
         </select>
         <input type="submit" value="Add item">
@@ -26,11 +26,9 @@
      </form>
 
     <p>You have already chosen:</p>
-
-            <c:forEach var="pickedProduct" items="${pickedProducts}">
-                 <p> ${pickedProduct.getTitle()} ${pickedProduct.getPrice()} </p>
-
-     </c:forEach>
+            <c:forEach var="pickedGood" items="${pickedGoods}">
+                 <p> ${pickedGood.getTitle()} ${pickedGood.getPrice()} </p>
+    </c:forEach>
 </div>
 </body>
 </html>

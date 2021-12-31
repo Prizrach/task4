@@ -9,15 +9,15 @@
 </head>
 <body>
    <div>
-    <h2>Dear ${userLogin}, your order:</h2>
+    <h2>Dear ${login}, your order:</h2>
     <br>
     <form method="post" action="billServlet">
     <p>
     <% int index = 0; %>
-           <c:forEach var="pickedProduct" items="${pickedProducts}">
-                  <p><%=index += 1%>) ${pickedProduct.getName()} (${pickedProduct.getPrice()})$</p>
+           <c:forEach var="pickedGood" items="${pickedGoods}">
+                  <p><%=index += 1%>) ${pickedGood.getTitle()} (${pickedGood.getPrice()})$</p>
            </c:forEach>
-           Total: ${total}$;
+           Total: ${totalPrice}$;
     </p>
    </div>
 </body>

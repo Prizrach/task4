@@ -22,15 +22,15 @@ public class AccessFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
         HttpSession session = ((HttpServletRequest) req).getSession();
 
-        if(req.getParameter("userLogin")!=null && req.getParameter("userLogin")!="" ){
-            session.setAttribute("userLogin",req.getParameter("userLogin"));
+        if(req.getParameter("login")!=null && req.getParameter("login")!="" ){
+            session.setAttribute("login",req.getParameter("login"));
         }
 
         if(req.getParameter("acceptTerms")!=null){
             session.setAttribute("acceptTerms",req.getParameter("acceptTerms"));
         }
 
-        if (session.getAttribute("userLogin")==null || session.getAttribute("acceptTerms")==null){
+        if (session.getAttribute("login")==null || session.getAttribute("acceptTerms")==null){
            ((HttpServletResponse) resp).sendError(401);
         }else {
             chain.doFilter(req, resp);

@@ -15,7 +15,7 @@
     <br>
     <div>
     <form method="post" action="orderServlet">
-        <input type="text" name="userLogin" placeholder="Enter your name">
+        <input type="text" name="login" placeholder="Enter your name">
         <p><input type = "checkbox"  class ="agree" name = "acceptTerms" >I agree with the terms of service</p>
         <div>
              <input type="submit" value="Enter">

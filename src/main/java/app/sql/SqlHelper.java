@@ -25,7 +25,6 @@ public class SqlHelper {
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        System.out.println("Connection ok");
         return connection;
     }
 
@@ -38,7 +37,7 @@ public class SqlHelper {
                 "  password text\n" +
                 ");\n" +
                 "\n" +
-                "CREATE TABLE `ORDER`\n" +
+                "CREATE TABLE `Order`\n" +
                 "(\n" +
                 "  id          int AUTO_INCREMENT PRIMARY KEY,\n" +
                 "  user_id     int,\n" +

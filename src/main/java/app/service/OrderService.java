@@ -1,31 +1,23 @@
 package app.service;
 
-
-import app.domain.Good;
-import app.repository.PriceListRepository;
-import java.util.ArrayList;
-
+import app.domain.Order;
+import app.domain.User;
+import app.repository.OrderRepository;
 
 public class OrderService {
 
-    public static Good getGood (String pickedGood) {
-        if(pickedGood!=null) {
-            Good good = new Good();
-            good.setTitle(pickedGood);
-            good.setPrice(PriceListRepository.getPriceListFromDb().get(good));
-            return good;
+    public static Order createOrGetOrderByUser(User user){
+        Order order = OrderRepository.getByUserId(user.getId());
+        if(order!=null){
+            return order;
+        }else {
+            OrderRepository.add(new Order(user.getId()));
+            return OrderRepository.getByUserId(user.getId());
         }
-        return null;
     }
 
-    public static double getTotalPrice(ArrayList<Good> list) {
-        double totalPrice = 0;
-        for (
-                Good good: list){
-            totalPrice+= good.getPrice();
-        }
-        return totalPrice;
-    }
+
+
 
 
 }

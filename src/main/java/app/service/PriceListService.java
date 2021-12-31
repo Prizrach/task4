@@ -1,16 +1,14 @@
 package app.service;
 
-import app.domain.PriceList;
-import app.repository.PriceListRepository;
+import app.domain.Good;
+import app.repository.GoodRepository;
 
+import java.util.List;
 
-import java.util.Map;
+public class PriceListService {
 
-public class PriceListService extends PriceList {
-
-
-    @Override
-    public Map<String, Double> getPriceList() {
-        return PriceListRepository.getPriceListFromDb();
+    public static List<Good> getPriceList() {
+        return GoodRepository.getAll();
     }
+
 }

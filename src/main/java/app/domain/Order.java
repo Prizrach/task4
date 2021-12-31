@@ -1,16 +1,15 @@
 package app.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Order {
 
     private int id;
     private int userId;
     private double totalPrice;
 
-    private User user;
-    private OrderGood orderGood;
+
+    public Order(int userId) {
+        this.userId = userId;
+    }
 
     public Order() {
     }
@@ -39,19 +38,13 @@ public class Order {
         this.userId = userId;
     }
 
-    public User getUser() {
-        return user;
-    }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public OrderGood getOrderGood() {
-        return orderGood;
-    }
-
-    public void setOrderGood(OrderGood orderGood) {
-        this.orderGood = orderGood;
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", totalPrice=" + totalPrice +
+                '}';
     }
 }

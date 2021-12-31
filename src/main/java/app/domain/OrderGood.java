@@ -8,7 +8,6 @@ public class OrderGood {
     private int orderId;
     private int goodId;
 
-    private List<Good> pickedGoods = new ArrayList<>();
 
     public OrderGood() {
     }
@@ -37,11 +36,13 @@ public class OrderGood {
         this.goodId = goodId;
     }
 
-    public List<Good> getPickedGood() {
-        return pickedGoods;
-    }
 
-    public void setPickedGood(List<Good> pickedGood) {
-        this.pickedGoods = pickedGood;
+    @Override
+    public String toString() {
+        return "OrderGood{" +
+                "id=" + id +
+                ", orderId=" + orderId +
+                ", goodId=" + goodId +
+                '}';
     }
 }

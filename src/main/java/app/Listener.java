@@ -1,6 +1,5 @@
 package app;
 
-import app.repository.GoodRepository;
 import app.sql.SqlHelper;
 
 import javax.servlet.ServletContextEvent;
